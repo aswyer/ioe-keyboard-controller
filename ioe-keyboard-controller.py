@@ -1,5 +1,7 @@
-import time
+import sys
+import time 
 import ioexpander as io
+#sys.path.append("/home/pi/.local/lib/python2.7/site-packages")
 from evdev import UInput, AbsInfo, ecodes as e
 
 class KeyFromPin:
@@ -34,8 +36,10 @@ class KeyFromPin:
             self.release()
 
     def press(self):
+        print("PRESS")
         self.ui.write(e.EV_KEY, self.key, 1)
         self.ui.syn()
+        
         
 
     def release(self):
@@ -63,6 +67,7 @@ class IoeKeyboardController:
         try:
             while True:
                 self.checkButtons()
+                print("CHECK ALL")
                 time.sleep(1.0 / 30)
 
         except KeyboardInterrupt:
@@ -79,10 +84,14 @@ if __name__ == "__main__":
 
 
 # install ioexpander: 
-# IOhttps://github.com/pimoroni/ioe-python
+# https://github.com/pimoroni/ioe-python
 
 # install evdev: 
-# pip install evdev
+# pip3 install evdev
+
+#change permissions for evdev uinput
+# in pi@raspberrypi:/dev folder run:
+# $ sudo chmod ugo=rwx uinput
 
 # enable service
 # https://www.thedigitalpictureframe.com/ultimate-guide-systemd-autostart-scripts-raspberry-pi/
